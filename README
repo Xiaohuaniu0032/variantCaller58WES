@@ -1,1 +1,14 @@
 Torrent Variant Caller (TVC) is a genetic variant caller for Ion Torrent™ Sequencing platforms, and is specially optimized to exploit the underlying flow signal information in the statistical model to evaluate variants. Torrent Variant Caller is designed to call single-nucleotide polymorphisms (SNPs), multi-nucleotide polymorphisms (MNPs), insertions, deletions, and block substitutions.
+
+
+
+####################### 2022-2-13 by longfei.fu ###########################
+
+Add Sensitivity and PPV Stat Scripts in variantCaller58WES/bin/variant_caller_pipeline.py file
+
+All the Sens and PPV code are store into variantCaller58WES/bin/wes_cap_ion/ directory.
+
+zip -r variantCaller58WES.zip variantCaller58WES -x \*.git\*
+
+How to install this plugin in TS?
+In TS page, Click **Plugins** -> **Install or Upgrade Plugin** to Upload variantCaller58WES.zip
