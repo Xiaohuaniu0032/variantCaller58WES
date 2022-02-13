@@ -13,7 +13,7 @@ from ion.plugin import *
 from django.utils.datastructures import SortedDict
 
 
-class variantCaller58(IonPlugin):
+class variantCaller58WES(IonPlugin):
     version = '5.8.0.21'
     envDict = dict(os.environ)
     runtypes = [RunType.FULLCHIP, RunType.THUMB, RunType.COMPOSITE]
@@ -64,4 +64,4 @@ class variantCaller58(IonPlugin):
         return errors
 
 if __name__ == "__main__":
-    PluginCLI(variantCaller58())
+    PluginCLI(variantCaller58WES())
