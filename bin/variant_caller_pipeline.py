@@ -546,6 +546,53 @@ def main():
 
 
     # -----------------------------------------------------------------------------------------
+    
+    ###################### add Sensitivity and PPV Stat Code #######################
+    TSVC_variants_vcf_file = os.path.join(options.outdir, 'TSVC_variants.vcf')
+    this_bin_dir = os.path.dirname(os.path.realpath(__file__))
+    QUAL_cutoff = 10
+    gold_vcf_file = "%s/wes_cap_ion/indel_hs_2022-1-6-xh/YH-indel.vcf" % (this_bin_dir)
+    bcftools_bin = "%s/wes_cap_ion/bcftools" % (this_bin_dir)
+
+    cmd = "perl %s/wes_cap_ion/Stat_Sensitivity_PPV_Main.pl -vcf %s -fa %s -QUAL %i -s %s -gvcf %s -od %s -bcf %s" % (this_bin_dir,TSVC_variants_vcf_file,options.reference,QUAL_cutoff,'WES',gold_vcf_file,options.outdir,bcftools_bin)
+    RunCommand(cmd,'Generate WES.sens.ppv.sh script')
+
+    run_sh = "%s/%s.sens.ppv.sh" % (options.outdir,'WES')
+    cmd    = "bash %s" % (run_sh)
+    RunCommand(cmd,'Run WES.sens.ppv.sh')
+    
+    '''
+    # 1) remove dup vars in TSVC_variants.vcf
+    outfile = os.path.join(options.outdir,'TSVC_variants.rmdup.vars.vcf')
+    cmd = "perl %/wes_cap_ion/script/rmdup_vars.pl %s %s" % (this_bin_dir,TSVC_variants_vcf_file,outfile)
+    RunCommand(cmd,'S1_remove_dup_vars_in_TSVC_variants.vcf')
+
+    # 2) bcftools norm
+    bcfnorm_outfile = os.path.join(options.outdir,'TSVC_variants.bcfnorm.vcf')
+    bcftools_bin = "%s/wes_cap_ion/bcftools" % (this_bin_dir)
+    cmd = "bcftools_bin norm -f %s -m - -c w %s >%s" % (options.reference,outfile,bcfnorm_outfile)
+    RunCommand(cmd,'S2_bcftools_norm')
+
+    # 3) again, remove dup vars in bcftools-normed vcf
+    bcfnorm_outfile_rmdup = os.path.join(options.outdir,'TSVC_variants.bcfnorm.rmdup.vcf')
+    cmd = "perl %s/wes_cap_ion/script/rmdup_vars.pl %s %s" % (this_bin_dir,bcfnorm_outfile,bcfnorm_outfile_rmdup)
+    RunCommand(cmd,'S3_remove_dup_vars_in_bcftools-norm-vcf')
+
+    # 4) remove 0/0 and ./. gt
+    gt_filter_outfile = os.path.join(options.outdir,'TSVC_variants.bcfnorm.gt_filter.vcf')
+    cmd = "perl %s/wes_cap_ion/script/filter_bcfnorm_vcf.pl %s %s" % (bcfnorm_outfile_rmdup, gt_filter_outfile)
+    RunCommand(cmd,'S4_remove_nocall_gt')
+
+    # 5) filter QUAL (default: 10)
+    qual_filter_pass   = os.path.join(options.outdir, 'TSVC_variants.bcfnorm.gt_filter.qual_pass.vcf')  
+    qual_filter_nopass = os.path.join(options.outdir, 'TSVC_variants.bcfnorm.gt_filter.qual_nopass.vcf')
+    cmd = "perl %s/wes_cap_ion/script/filter_QUAL.pl %s >%s" % (qual_filter_pass,qual_filter_nopass)
+    RunCommand(cmd,'S5_filter_QUAL')
+
+    # 6) stat sensitivity
+
+    # 7) 
+    '''
 
 # =======================================================================================
 
