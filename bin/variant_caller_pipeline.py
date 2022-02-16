@@ -552,7 +552,7 @@ def main():
     this_bin_dir = os.path.dirname(os.path.realpath(__file__))
     QUAL_cutoff = 10
     gold_vcf_file = "%s/wes_cap_ion/indel_hs_2022-1-6-xh/YH-indel.vcf" % (this_bin_dir)
-    bcftools_bin = "%s/wes_cap_ion/bcftools" % (this_bin_dir)
+    bcftools_bin = "%s/wes_cap_ion/bcftools/bcftools" % (this_bin_dir)
 
     cmd = "perl %s/wes_cap_ion/Stat_Sensitivity_PPV_Main.pl -vcf %s -fa %s -QUAL %i -s %s -gvcf %s -od %s -bcf %s" % (this_bin_dir,TSVC_variants_vcf_file,options.reference,QUAL_cutoff,'WES',gold_vcf_file,options.outdir,bcftools_bin)
     RunCommand(cmd,'Generate WES.sens.ppv.sh script')

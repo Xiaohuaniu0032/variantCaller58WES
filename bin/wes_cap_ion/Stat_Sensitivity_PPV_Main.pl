@@ -61,6 +61,8 @@ print O "$cmd\n\n";
 
 my $norm_vcf = "$outdir/$sample_name\.TSVC_variants.bcfnorm.vcf";
 #$cmd = "bcftools norm -f $fasta -m - -c w $TSVC_variants_vcf_file >$norm_vcf";
+$cmd = "export LD_LIBRARY_PATH=$Bin/bcftools/lib/x86_64-linux-gnu";
+print O "$cmd\n";
 $cmd = "$bcftools_bin norm -f $fasta -m - -c w $rmdup_vcf >$norm_vcf";
 print O "$cmd\n\n";
 
