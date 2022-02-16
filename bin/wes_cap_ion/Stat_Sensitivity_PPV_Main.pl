@@ -119,15 +119,29 @@ if ($gvcf_name eq "YH-indel.vcf"){
 	$cmd = "perl $Bin/script/HS_InDel_NoCall_Reason_Summary.pl $Sens_TVC_detail_outfile $NoCall_summary_file";
 	print O "$cmd\n\n";
 
+	# 统计SNP位点的灵敏度和PPV
+	my $snv_sens_outfile = "$outdir/$sample_name\.snv.sens.xls"; # 中间文件
+	my $snv_ppv_outfile  = "$outdir/$sample_name\.snv.ppv.xls";  # 中间文件
+	my $snv_summary_outfile  = "$outdir/$sample_name\.snv.sens.ppv.summary.xls";
+
+	my $gold_vcf = "$Bin/script/Stat_SNV_Sens_PPV/YH.vcf";    # YH 27M 金标准SNV位点
+	my $bed      = "$Bin/script/Stat_SNV_Sens_PPV/YH.bed";    # YH 27M BED文件
+
+	$cmd = "perl $Bin/script/Stat_SNV_Sens_PPV/cal_snv_sens_ppv.pl $gold_vcf $TSVC_variants_vcf_file $bed $snv_sens_outfile $snv_ppv_outfile >$snv_summary_outfile";
+	print O "$cmd\n";
+
+
+	###################  以下暂时不使用  ###################
 	# Make TVC Pos BED (used to check tp and fp vars)
-	my $tp_fp_bed = "$outdir/$sample_name\.TP.FP.BED";
-	$cmd = "perl $Bin/script/Make_TP_FP_BED.pl $PPV_file $tp_fp_bed";
-	print O "$cmd\n\n";
+	#my $tp_fp_bed = "$outdir/$sample_name\.TP.FP.BED";
+	#$cmd = "perl $Bin/script/Make_TP_FP_BED.pl $PPV_file $tp_fp_bed";
+	#print O "$cmd\n\n";
 
 	# plot TP vs FP's MLLD & RBI plot
-	my $tp_fp_table = "$outdir/$sample_name\.TP.FP.MLLD.RBI.xls";
-	$cmd = "perl $Bin/script/make_TP_FP_plot_RBI_MLLD_table.pl $PPV_TVC_detail_outfile $tp_fp_table";
-	print O "$cmd\n\n";
+	#my $tp_fp_table = "$outdir/$sample_name\.TP.FP.MLLD.RBI.xls";
+	#$cmd = "perl $Bin/script/make_TP_FP_plot_RBI_MLLD_table.pl $PPV_TVC_detail_outfile $tp_fp_table";
+	#print O "$cmd\n\n";
+	#######################################################
 
 	# Summary False Positive Call Reason
 }else{
