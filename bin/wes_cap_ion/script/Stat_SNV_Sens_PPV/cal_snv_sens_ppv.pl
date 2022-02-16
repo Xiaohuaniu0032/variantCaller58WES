@@ -116,11 +116,9 @@ close O;
 
 my $all_snv = $call_num + $not_call_num;
 my $sens = sprintf "%.2f", $call_num / $all_snv * 100;
-print "################# Stat Sensitivity ######################\n";
+print "################# Stat SNV Sensitivity ######################\n";
 print "call_num\tnot_call_num\tall_num\tsensitivity\n";
 print "$call_num\t$not_call_num\t$all_snv\t$sens\n";
-
-
 
 
 
@@ -173,8 +171,11 @@ close PPV;
 my $pos = $tp_num + $fp_num;
 my $ppv = sprintf "%.2f", $tp_num / $pos * 100;
 
+print "################# Stat SNV PPV ######################\n";
 print "tp_num\tfp_num\tall_num\tppv\n";
 print "$tp_num\t$fp_num\t$pos\t$ppv\n";
 
-#print "PPV is: $ppv\n";
 
+print "####################### Summary ###########################\n";
+print "SNV_Sensitivity: $sens\% \n";
+print "SNV_PPV        : $ppv\% \n";
